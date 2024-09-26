@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('@fontsource/pt-sans/400.css');
+@import url('@fontsource/pt-sans/700.css');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'PT Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #212121;
+  background-color: rgb(200, 228, 201);
 }
 
 code {
