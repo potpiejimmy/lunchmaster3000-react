@@ -1,16 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import StarIcon from '@mui/icons-material/Star';
+import { Outlet } from "react-router-dom";
+import TopBar from './components/TopBar';
+import Footer from './components/Footer';
 
 function App() {
 
     const theme = createTheme({
+        palette: {
+            primary: {
+                light: 'rgb(200, 228, 201)',
+                main: '#4CAF50',
+                dark: '#2E7D32',
+                contrastText: '#fff',
+            },
+            secondary: {
+                light: '#ff7961',
+                main: '#f44336',
+                dark: '#ba000d',
+                contrastText: '#000',
+            },
+        },
         typography: {
             fontFamily: [
                 'PT Sans',
@@ -30,25 +41,15 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
+            
+            <TopBar/>
+
             <div className='flex flex-col gap-5 m-5'>
-                <p className="text-2xl">
-                    Today's favorites
-                </p>
-                <Card>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            <Box className="flex flex-row gap-1 items-center">
-                                <StarIcon/>
-                                Today's favorites
-                            </Box>
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            <p>Hi Thorsten,</p>
-                            please choose your favorite food places for today. You can select one or more places - anything you are in the mood for.
-                            If you feel like ordering or picking up food for you and your co-workers from one of the places, please press Take orders. Otherwise, just wait until someone else presses the button and then you can join in.
-                        </Typography>
-                    </CardContent>
-                </Card>
+
+                <Outlet/> {/* This is where the child routes will be rendered */}
+
+                <Footer/>
+
             </div>
         </ThemeProvider>
     );
