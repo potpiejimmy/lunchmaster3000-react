@@ -1,0 +1,6 @@
+.topbar-logo {
+    width: 42px;
+    height: 42px;
+    background: url("../assets/logo.png") top left no-repeat;
+    background-size: 42px 42px;
+}
