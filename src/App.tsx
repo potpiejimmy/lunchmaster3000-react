@@ -15,7 +15,7 @@ export default class App extends React.Component<any, AppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            title: 'lunch.community'
+            title: 'Thorsten @ Pizza Party Community'
         };
     }
 
@@ -60,7 +60,7 @@ export default class App extends React.Component<any, AppState> {
                     
                     <TopBar/>
 
-                    <div className='flex flex-col gap-5 m-5'>
+                    <div className='flex flex-col gap-4 m-4'>
 
                         <Outlet/> {/* This is where the child routes will be rendered */}
 
