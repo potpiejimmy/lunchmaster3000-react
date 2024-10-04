@@ -51,7 +51,7 @@ export default class TopBar extends React.Component<any, TopBarState> {
         super(props);
         this.state = {
             title: 'lunch.community',
-            animationState: 'Idle',
+            animationState: 'idle',
             dishes: Array.from(Array(TopBar.CAROUSEL_RENDER_SIZE).keys()).map(i=>i%TopBar.CAROUSEL_NUM_PICTURES)
         };
     }
@@ -75,14 +75,16 @@ export default class TopBar extends React.Component<any, TopBarState> {
     }
 
     shiftCarousel() {
-        this.setState({...this.state, animationState: 'Shifted'});
+        this.setState({...this.state, animationState: 'shifted'});
     }
 
     shiftAnimationDone() {
-        let dishes = [...this.state.dishes];
-        let i = dishes.shift();
-        dishes.push(i!);
-        this.setState({...this.state, animationState: 'Idle', dishes: dishes});
+        if (this.state.animationState === 'shifted') {
+            let dishes = [...this.state.dishes];
+            let i = dishes.shift();
+            dishes.push(i!);
+            this.setState({...this.state, animationState: 'idle', dishes: dishes});
+        }
     }
 
     render() {
@@ -104,7 +106,7 @@ export default class TopBar extends React.Component<any, TopBarState> {
                     {/* image carousel start */}
                     <Box className="max-sm:hidden overflow-hidden bg-white">
 
-                        <Box className={`dishCarouselAnim${this.state.animationState}`}
+                        <Box className={`dish-carousel-anim-${this.state.animationState}`}
                              onTransitionEnd={()=>this.shiftAnimationDone()}>
 
                             <Box className="flex flex-row gap-0.5 p-0.5">

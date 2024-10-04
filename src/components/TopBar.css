@@ -10,12 +10,12 @@
     min-height: 30px;
  }
 
- .dishCarouselAnimIdle {
+ .dish-carousel-anim-idle {
     transition: transform 0s;
     transform: translateX(0px);
 }
 
-.dishCarouselAnimShifted {
+.dish-carousel-anim-shifted {
     transition: transform 2s ease-in-out;
     transform: translateX(-122px);
 }
