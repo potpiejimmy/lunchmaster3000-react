@@ -9,3 +9,13 @@
     background-color: #2E7D32;
     min-height: 30px;
  }
+
+ .dishCarouselAnimIdle {
+    transition: transform 0s;
+    transform: translateX(0px);
+}
+
+.dishCarouselAnimShifted {
+    transition: transform 2s ease-in-out;
+    transform: translateX(-122px);
+}

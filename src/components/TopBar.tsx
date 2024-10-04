@@ -27,7 +27,9 @@ import { Donate } from './Donate';
 import { Link } from 'react-router-dom';
 
 interface TopBarState {
-    title: string
+    title: string,
+    animationState: string,
+    dishes: Array<number>
 }
 
 export default class TopBar extends React.Component<any, TopBarState> {
@@ -40,16 +42,17 @@ export default class TopBar extends React.Component<any, TopBarState> {
     static readonly CAROUSEL_RENDER_SIZE = 45; // number of pictures to render in carousel - should be large enough for largest screens
     static readonly CAROUSEL_NUM_PICTURES = 15; // number of distinct carousel pictures in assets/dishes/dishX.jpg
 
-    dishes = Array.from(Array(TopBar.CAROUSEL_RENDER_SIZE).keys()).map(i=>i%TopBar.CAROUSEL_NUM_PICTURES);
     dishPics = [dish1,dish2,dish3,dish4,dish5,dish6,dish7,dish8,dish9,dish10,dish11,dish12,dish13,dish14,dish15];
-    animationState = 'idle';
 
     carouselTimeout: NodeJS.Timeout | undefined;
+    carouselInterval: NodeJS.Timeout | undefined;
 
     constructor(props: any) {
         super(props);
         this.state = {
-            title: 'lunch.community'
+            title: 'lunch.community',
+            animationState: 'Idle',
+            dishes: Array.from(Array(TopBar.CAROUSEL_RENDER_SIZE).keys()).map(i=>i%TopBar.CAROUSEL_NUM_PICTURES)
         };
     }
 
@@ -59,24 +62,27 @@ export default class TopBar extends React.Component<any, TopBarState> {
             this.setState({...this.state, title: t});
         })
         this.tw.start();
-        this.carouselTimeout = setTimeout(() => { this.shiftCarousel(); setInterval(()=>this.shiftCarousel(), 10000) }, 2000);
+        this.carouselTimeout = setTimeout(() => {
+            this.shiftCarousel();
+            this.carouselInterval = setInterval(()=>this.shiftCarousel(), 10000)
+        }, 2000);
     }
 
     componentWillUnmount(): void {
         this.tw?.stop();
         if (this.carouselTimeout) clearTimeout(this.carouselTimeout);
+        if (this.carouselInterval) clearInterval(this.carouselInterval);
     }
 
     shiftCarousel() {
-        this.animationState='shiftedLeft';
+        this.setState({...this.state, animationState: 'Shifted'});
     }
 
-    shiftAnimationDone(event: any) {
-        if (event.toState === 'shiftedLeft') {
-            this.animationState = 'idle';
-            let i = this.dishes.shift();
-            this.dishes.push(i!);
-        }
+    shiftAnimationDone() {
+        let dishes = [...this.state.dishes];
+        let i = dishes.shift();
+        dishes.push(i!);
+        this.setState({...this.state, animationState: 'Idle', dishes: dishes});
     }
 
     render() {
@@ -97,9 +103,15 @@ export default class TopBar extends React.Component<any, TopBarState> {
                     </Box>
                     {/* image carousel start */}
                     <Box className="max-sm:hidden overflow-hidden bg-white">
-                        <Box className="flex flex-row gap-0.5 p-0.5">
-                            {this.dishes.map((i) => <img src={this.dishPics[i]} width="120px" key={i}/>)}
+
+                        <Box className={`dishCarouselAnim${this.state.animationState}`}
+                             onTransitionEnd={()=>this.shiftAnimationDone()}>
+
+                            <Box className="flex flex-row gap-0.5 p-0.5">
+                                {this.state.dishes.map((i,ix) => <img src={this.dishPics[i]} width="120px" key={ix}/>)}
+                            </Box>
                         </Box>
+
                     </Box>
                     {/* image carousel end */}
                 </AppBar>
