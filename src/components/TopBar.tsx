@@ -7,6 +7,9 @@ import { AppContext } from '../AppContext';
 import ShareIcon from '@mui/icons-material/Share';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import { TypeWriter } from '../util/TypeWriter';
+import { Donate } from './Donate';
+import { Link } from 'react-router-dom';
+import i18n from '../i18n'
 
 import dish1 from '../assets/dishes/dish1.jpg';
 import dish2 from '../assets/dishes/dish2.jpg';
@@ -23,8 +26,6 @@ import dish12 from '../assets/dishes/dish12.jpg';
 import dish13 from '../assets/dishes/dish13.jpg';
 import dish14 from '../assets/dishes/dish14.jpg';
 import dish15 from '../assets/dishes/dish15.jpg';
-import { Donate } from './Donate';
-import { Link } from 'react-router-dom';
 
 interface TopBarState {
     title: string,
@@ -57,7 +58,7 @@ export default class TopBar extends React.Component<any, TopBarState> {
     }
 
     componentDidMount() {
-        let slogan = "“What are we having for lunch today?”";//await this.translate.get("components.topbar.slogan").toPromise();
+        let slogan = i18n.t("components.topbar.slogan");
         this.tw = new TypeWriter([slogan,"lunch.community"], (t:string) => {
             this.setState({...this.state, title: t});
         })
