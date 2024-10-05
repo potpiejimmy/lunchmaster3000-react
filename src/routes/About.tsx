@@ -13,20 +13,22 @@ function About() {
     return (
         <Card>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5">
                     lunch.community
                 </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>
                     <Box>
-                        {t('routes.about.company_name')}<br/>
-                        {t('routes.about.company_street')}<br/>
-                        {t('routes.about.company_country')}
+                        <Typography sx={{ color: 'text.secondary' }}>
+                            {t('routes.about.company_name')}<br/>
+                            {t('routes.about.company_street')}<br/>
+                            {t('routes.about.company_country')}
+                        </Typography>
                     </Box>
                     <Box className="my-3">
-                        <MailIcon/><br/>
-                        {t('routes.about.mail_contact')} info [at] lunch.community
+                        <Typography sx={{ color: 'text.secondary' }}>
+                            <MailIcon/><br/>
+                            {t('routes.about.mail_contact')} info [at] lunch.community
+                        </Typography>
                     </Box>
-                </Typography>
             </CardContent>
         </Card>
     );

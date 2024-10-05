@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-function Footer() {
+export default function Footer() {
 
     const { t } = useTranslation();
 
@@ -22,5 +22,3 @@ function Footer() {
         </Card>
     );
 }
-
-export default Footer;
