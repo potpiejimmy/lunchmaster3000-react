@@ -20,3 +20,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+a, a:visited {
+  color: #2E7D32;
+  text-decoration: none;
+}
+
+.highlightedCard {
+  background-color: #fafad2;
+}

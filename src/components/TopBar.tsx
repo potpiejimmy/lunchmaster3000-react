@@ -48,11 +48,10 @@ export default function TopBar() {
 
     function shiftAnimationDone() {
         if (animationState === 'shifted') {
-            let dishesCopy = [...dishes];
-            let i = dishesCopy.shift();
-            dishesCopy.push(i!);
+            let i = dishes.shift();
+            dishes.push(i!);
             setAnimationState('idle');
-            setDishes(dishesCopy);
+            setDishes(dishes);
         }
     }
 
@@ -77,7 +76,7 @@ export default function TopBar() {
             if (carouselTimeout) clearTimeout(carouselTimeout);
             if (carouselInterval) clearInterval(carouselInterval);
         }    
-    }, []);
+    }, [t]);
 
     return (
         <Box>
@@ -101,7 +100,7 @@ export default function TopBar() {
                             onTransitionEnd={()=>shiftAnimationDone()}>
 
                         <Box className="flex flex-row gap-0.5 p-0.5">
-                            {dishes.map((i,ix) => <img src={dishPics[i]} width="120px" key={ix}/>)}
+                            {dishes.map((i,ix) => <img src={dishPics[i]} width="120px" key={ix} alt={'dish'+ix}/>)}
                         </Box>
                     </Box>
 

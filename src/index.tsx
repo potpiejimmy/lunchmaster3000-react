@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './i18n';
 import About from './routes/About';
 import Main from './routes/Main';
+import Create from './routes/Create';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "create",
+        element: <Create />,
       }
     ]
   }

@@ -16,19 +16,19 @@ function About() {
                 <Typography gutterBottom variant="h5">
                     lunch.community
                 </Typography>
-                    <Box>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                            {t('routes.about.company_name')}<br/>
-                            {t('routes.about.company_street')}<br/>
-                            {t('routes.about.company_country')}
-                        </Typography>
-                    </Box>
-                    <Box className="my-3">
-                        <Typography sx={{ color: 'text.secondary' }}>
-                            <MailIcon/><br/>
-                            {t('routes.about.mail_contact')} info [at] lunch.community
-                        </Typography>
-                    </Box>
+                <Box>
+                    <Typography sx={{ color: 'text.secondary' }}>
+                        {t('routes.about.company_name')}<br/>
+                        {t('routes.about.company_street')}<br/>
+                        {t('routes.about.company_country')}
+                    </Typography>
+                </Box>
+                <Box className="my-3">
+                    <Typography sx={{ color: 'text.secondary' }}>
+                        <MailIcon/><br/>
+                        {t('routes.about.mail_contact')} info [at] lunch.community
+                    </Typography>
+                </Box>
             </CardContent>
         </Card>
     );
