@@ -5,10 +5,16 @@ import { Outlet } from "react-router-dom";
 import TopBar from './components/TopBar';
 import Footer from './components/Footer';
 import AppContext from './AppContext';
+import LmApi from './api/LmApi';
 
 export default function App() {
 
     const [title, setTitle] = React.useState('Thorsten @ Pizza Party Community');
+    const [loading, setLoading] = React.useState(false);
+    const [agreeTerms, setAgreeTerms] = React.useState(false);
+    const [agreePrivacy, setAgreePrivacy] = React.useState(false);
+
+    const largerInputSx = {'.MuiInputBase-input': { fontSize: '1.5rem' }, '.MuiInputLabel-root': { fontSize: '1.5rem' }};
 
     const theme = createTheme({
         palette: {
@@ -43,7 +49,14 @@ export default function App() {
     });
 
     return (
-        <AppContext.Provider value={{title}}>
+        <AppContext.Provider value={
+            {
+                api: new LmApi(),
+                title, setTitle,
+                loading, setLoading,
+                agreeTerms, setAgreeTerms,
+                agreePrivacy, setAgreePrivacy
+            }}>
 
             <ThemeProvider theme={theme}>
                 

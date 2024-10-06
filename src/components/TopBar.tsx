@@ -90,7 +90,7 @@ export default function TopBar() {
                     <SettingsIcon></SettingsIcon>
                 </Toolbar>
                 <Box className="topbar-subbar flex flex-row gap-5 items-center px-4">
-                    <Box className="grow text-center">{context.title} <ShareIcon className='scale-75'/></Box>
+                    <Box className="grow text-center">{context?.title} <ShareIcon className='scale-75'/></Box>
                     <Box className="max-sm:hidden"><Donate/></Box>
                 </Box>
                 {/* image carousel start */}
