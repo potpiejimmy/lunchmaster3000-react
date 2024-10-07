@@ -8,6 +8,8 @@ import './i18n';
 import About from './routes/About';
 import Main from './routes/Main';
 import Create from './routes/Create';
+import Join from './routes/Join';
+import Welcome from './routes/Welcome';
 
 const router = createBrowserRouter([
   {
@@ -16,15 +18,23 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Main />,
+        element: <Main />
       },
       {
         path: "about",
-        element: <About />,
+        element: <About />
       },
       {
         path: "create",
-        element: <Create />,
+        element: <Create />
+      },
+      {
+        path: "join",
+        element: <Join />
+      },
+      {
+        path: "welcome",
+        element: <Welcome />
       }
     ]
   }
