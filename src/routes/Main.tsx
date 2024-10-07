@@ -29,31 +29,27 @@ function Main() {
             // no community selected
             navigate('/create', { replace: true });
         } else {
-            loadCommunity(id);
+            //load community
+            context?.setLoading(true);
+            context?.api.getCommunity(id).then(async c => {
+                if (!c) {
+                    //this.snackBar.open(await this.translate.get("routes.main.community_id_does_not_exist").toPromise(), null, {duration: 5000});
+                    navigate('/create', { replace: true });
+                } else {
+                    context?.setCommunity(c);
+            //         if (!this.name) {
+            //             // name not set?
+            //             this.router.navigate(['/welcome'], { replaceUrl: true });
+            //         } else {
+            //             this.app.name = this.name;
+            //             await this.startup();
+            //         }
+                }
+            // }).finally(() => {
+            //     this.app.loading = false;
+            });
         }
-    }, [searchParams, navigate, loadCommunity]);
-
-    async function loadCommunity(id: string) {
-        //load community
-        context?.setLoading(true);
-        context?.api.getCommunity(id).then(async c => {
-            if (!c) {
-                //this.snackBar.open(await this.translate.get("routes.main.community_id_does_not_exist").toPromise(), null, {duration: 5000});
-                navigate('/create', { replace: true });
-            } else {
-                context?.setCommunity(c);
-        //         if (!this.name) {
-        //             // name not set?
-        //             this.router.navigate(['/welcome'], { replaceUrl: true });
-        //         } else {
-        //             this.app.name = this.name;
-        //             await this.startup();
-        //         }
-            }
-        // }).finally(() => {
-        //     this.app.loading = false;
-        });
-    }
+    }, [searchParams, navigate]);
 
     return (
         <Card>
