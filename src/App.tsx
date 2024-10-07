@@ -9,12 +9,11 @@ import LmApi from './api/LmApi';
 
 export default function App() {
 
-    const [title, setTitle] = React.useState('Thorsten @ Pizza Party Community');
     const [loading, setLoading] = React.useState(false);
     const [agreeTerms, setAgreeTerms] = React.useState(false);
     const [agreePrivacy, setAgreePrivacy] = React.useState(false);
-
-    const largerInputSx = {'.MuiInputBase-input': { fontSize: '1.5rem' }, '.MuiInputLabel-root': { fontSize: '1.5rem' }};
+    const [community, setCommunity] = React.useState(null);
+    const [name, setName] = React.useState('');
 
     const theme = createTheme({
         palette: {
@@ -52,17 +51,18 @@ export default function App() {
         <AppContext.Provider value={
             {
                 api: new LmApi(),
-                title, setTitle,
                 loading, setLoading,
                 agreeTerms, setAgreeTerms,
-                agreePrivacy, setAgreePrivacy
+                agreePrivacy, setAgreePrivacy,
+                community, setCommunity,
+                name, setName
             }}>
 
             <ThemeProvider theme={theme}>
                 
                 <TopBar/>
 
-                <div className='flex flex-col gap-4 m-4'>
+                <div className='flex flex-col gap-4 mx-4 my-4 lg:mx-16 lg:my-8'>
 
                     <Outlet/>
 

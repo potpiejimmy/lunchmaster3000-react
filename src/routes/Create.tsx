@@ -22,7 +22,7 @@ export default function Create() {
         };
 
         let c = await context?.api.createCommunity(newCommunity);
-        navigate('/about', { replace: true });
+        navigate('/?id=' + c.webid);
     }
 
     return (

@@ -6,4 +6,7 @@ export default class LmApi extends HttpBase {
         return this.post("/communities", community);
     }
 
+    getCommunity(id: string): Promise<any> {
+        return this.get("/communities/"+id);
+    }
 }

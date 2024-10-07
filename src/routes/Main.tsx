@@ -1,11 +1,14 @@
+import React from "react";
+import { useEffect } from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import StarIcon from '@mui/icons-material/Star';
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import AppContext from "../AppContext";
 
 function Main() {
 
+    const context = React.useContext(AppContext);
     const { t } = useTranslation();
     const [ searchParams ] = useSearchParams();
     const navigate = useNavigate();
@@ -26,27 +29,31 @@ function Main() {
             // no community selected
             navigate('/create', { replace: true });
         } else {
-            // load community
-            // this.app.loading = true;
-            // this.api.getCommunity(id).then(async c => {
-            //     if (!c) {
-            //         this.snackBar.open(await this.translate.get("routes.main.community_id_does_not_exist").toPromise(), null, {duration: 5000});
-            //         this.router.navigate(['/create'], { replaceUrl: true });
-            //     } else {
-            //         this.app.community = c;
-            //         if (!this.name) {
-            //             // name not set?
-            //             this.router.navigate(['/welcome'], { replaceUrl: true });
-            //         } else {
-            //             this.app.name = this.name;
-            //             await this.startup();
-            //         }
-            //     }
-            // }).finally(() => {
-            //     this.app.loading = false;
-            // });
+            loadCommunity(id);
         }
-    }, [searchParams, navigate]);
+    }, [searchParams, navigate, loadCommunity]);
+
+    async function loadCommunity(id: string) {
+        //load community
+        context?.setLoading(true);
+        context?.api.getCommunity(id).then(async c => {
+            if (!c) {
+                //this.snackBar.open(await this.translate.get("routes.main.community_id_does_not_exist").toPromise(), null, {duration: 5000});
+                navigate('/create', { replace: true });
+            } else {
+                context?.setCommunity(c);
+        //         if (!this.name) {
+        //             // name not set?
+        //             this.router.navigate(['/welcome'], { replaceUrl: true });
+        //         } else {
+        //             this.app.name = this.name;
+        //             await this.startup();
+        //         }
+            }
+        // }).finally(() => {
+        //     this.app.loading = false;
+        });
+    }
 
     return (
         <Card>
