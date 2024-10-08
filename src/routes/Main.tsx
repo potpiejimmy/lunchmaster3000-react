@@ -13,8 +13,10 @@ function Main() {
     const [ searchParams ] = useSearchParams();
     const navigate = useNavigate();
 
+    const [data, setData] = React.useState<any>(null);
+
     // initialize name from local storage
-    //let name = localStorage.getItem('name');
+    let name = localStorage.getItem('name');
 
     useEffect(() => {
         let id = searchParams.get('id');
@@ -37,19 +39,54 @@ function Main() {
                     navigate('/create', { replace: true });
                 } else {
                     context?.setCommunity(c);
-            //         if (!this.name) {
-            //             // name not set?
-            //             this.router.navigate(['/welcome'], { replaceUrl: true });
-            //         } else {
-            //             this.app.name = this.name;
-            //             await this.startup();
-            //         }
+                    if (!name) {
+                        // name not set?
+                        navigate('/welcome', { replace: true });
+                    } else {
+                        context?.setName(name);
+                        await startup();
+                    }
                 }
-            // }).finally(() => {
-            //     this.app.loading = false;
+            }).finally(() => {
+                context?.setLoading(false);
             });
         }
     }, [searchParams, navigate]);
+
+    async function startup(): Promise<void> {
+        initSocket();
+        await load();
+        try {
+            Notification.requestPermission(); // request notification permission
+        } catch (err) {}
+    }
+
+    function initSocket() {
+        // register socket for receiving data:
+        // this.socket = io(environment.socketIoUrl+this.app.community.webid, { path: environment.socketIoPath });
+        // this.socket.on('reconnect', async () => {
+        //     //reload data from server on connect to fix iOS problem with PWA
+        //     this.adaptDataFromServer(await this.api.getData());
+        // });
+        // this.socket.on('data', data => {
+        //     if (!this.isTyping) this.adaptDataFromServer(data);
+        // });
+        // this.socket.on('push', async msg => {
+        //     if (msg.name != this.name) {
+        //         new Notification(msg.title, {
+        //             body: msg.type != 'chat' ? await this.translate.get("push."+msg.body, msg.params).toPromise() : msg.body,
+        //             requireInteraction: msg.type != 'chat'
+        //         });
+        //     }
+        // });
+        // this.socket.on("connect_error", (err) => {
+        //     console.log(`socket.io connect error due to ${err.message}`);
+        // });
+    }
+
+    async function load(): Promise<void> {
+        setData(await context?.api.getData());
+    }
 
     return (
         <Card>
