@@ -26,6 +26,7 @@ import dish12 from '../assets/dishes/dish12.jpg';
 import dish13 from '../assets/dishes/dish13.jpg';
 import dish14 from '../assets/dishes/dish14.jpg';
 import dish15 from '../assets/dishes/dish15.jpg';
+import { Button, IconButton } from '@mui/material';
 
 export default function TopBar() {
 
@@ -53,6 +54,10 @@ export default function TopBar() {
             setAnimationState('idle');
             setDishes(dishes);
         }
+    }
+
+    function communityLink(): string {
+        return process.env.REACT_APP_SHARE_URL+'?id='+context?.community.webid;
     }
 
     useEffect(() => {
@@ -87,10 +92,22 @@ export default function TopBar() {
                         {title}
                     </Box>
                     <Box className="grow"/>
-                    <SettingsIcon></SettingsIcon>
+                    <Box className="flex flex-row">
+                        {context?.community &&
+                            <IconButton sx={{color: 'primary.light'}} title={t('components.topbar.copy_link', {communityLink: communityLink()})}>
+                                <ShareIcon></ShareIcon>
+                            </IconButton>
+                        }
+                        <IconButton sx={{color: 'primary.light'}} title={t('general.settings')}>
+                            <SettingsIcon/>
+                        </IconButton>
+                    </Box>
                 </Toolbar>
                 <Box className="topbar-subbar flex flex-row gap-5 items-center px-4">
-                    <Box className="grow text-center">{context?.name ? context?.name + " @" : ""} {context?.community?.name} {context?.community && <ShareIcon className='scale-75'/>}</Box>
+                    <Box className="grow text-center">
+                        {context?.name ? context?.name + " @ " : ""}
+                        {context?.community?.name}
+                    </Box>
                     <Box className="max-sm:hidden"><Donate/></Box>
                 </Box>
                 {/* image carousel start */}

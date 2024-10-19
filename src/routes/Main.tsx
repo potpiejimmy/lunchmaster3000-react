@@ -92,7 +92,7 @@ function Main() {
         <Card>
             <CardContent>
                 <Typography gutterBottom variant="h5">
-                    <Box className="flex flex-row items-center gap-1"><StarIcon/> {t('routes.main.favorite_list')}</Box>
+                    <Box className="flex flex-row items-center gap-1"><StarIcon/>{t('routes.main.favorite_list')}</Box>
                 </Typography>
                 <Box>
                     <Typography sx={{ color: 'text.secondary' }}>
