@@ -26,7 +26,7 @@ import dish12 from '../assets/dishes/dish12.jpg';
 import dish13 from '../assets/dishes/dish13.jpg';
 import dish14 from '../assets/dishes/dish14.jpg';
 import dish15 from '../assets/dishes/dish15.jpg';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 export default function TopBar() {
 
@@ -58,6 +58,11 @@ export default function TopBar() {
 
     function communityLink(): string {
         return process.env.REACT_APP_SHARE_URL+'?id='+context?.community.webid;
+    }
+
+    function linkCopied() {
+        navigator.clipboard.writeText(communityLink());
+        context?.setSnackText(t('components.topbar.link_copied'));
     }
 
     useEffect(() => {
@@ -93,11 +98,6 @@ export default function TopBar() {
                     </Box>
                     <Box className="grow"/>
                     <Box className="flex flex-row">
-                        {context?.community &&
-                            <IconButton sx={{color: 'primary.light'}} title={t('components.topbar.copy_link', {communityLink: communityLink()})}>
-                                <ShareIcon></ShareIcon>
-                            </IconButton>
-                        }
                         <IconButton sx={{color: 'primary.light'}} title={t('general.settings')}>
                             <SettingsIcon/>
                         </IconButton>
@@ -107,6 +107,14 @@ export default function TopBar() {
                     <Box className="grow text-center">
                         {context?.name ? context?.name + " @ " : ""}
                         {context?.community?.name}
+                        {context?.community &&
+                            <IconButton size='small'
+                                        sx={{color: 'primary.light'}}
+                                        title={t('components.topbar.copy_link', {communityLink: communityLink()})}
+                                        onClick={linkCopied}>
+                                <ShareIcon fontSize='small'></ShareIcon>
+                            </IconButton>
+                        }
                     </Box>
                     <Box className="max-sm:hidden"><Donate/></Box>
                 </Box>

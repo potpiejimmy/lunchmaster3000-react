@@ -8,6 +8,7 @@
  .topbar-subbar {
     background-color: #2E7D32;
     min-height: 30px;
+    max-height: 30px;
  }
 
  .dish-carousel-anim-idle {

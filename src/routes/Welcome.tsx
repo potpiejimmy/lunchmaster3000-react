@@ -47,8 +47,6 @@ export default function Welcome() {
                         <Accordion sx={{bgcolor: 'primary.light'}}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
                                 >
                                 <InfoIcon/>&nbsp;{t('routes.welcome.hint_title')}
                             </AccordionSummary>

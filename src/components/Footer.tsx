@@ -11,7 +11,7 @@ export default function Footer() {
     return (
         <Card>
             <CardContent>
-                <Box className="flex flex-col sm:flex-row gap-4 items-start">
+                <Box className="flex flex-col sm:flex-row gap-4 items-start pt-1">
                     <Link to="/about">{t('components.footer.impressum')}</Link>
                     <Link to="/terms">{t('components.footer.terms')}</Link>
                     <Link to="/privacy">{t('components.footer.cookies')}</Link>

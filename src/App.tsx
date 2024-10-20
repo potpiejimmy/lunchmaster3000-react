@@ -6,6 +6,7 @@ import TopBar from './components/TopBar';
 import Footer from './components/Footer';
 import AppContext from './AppContext';
 import LmApi from './api/LmApi';
+import { Snackbar } from '@mui/material';
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
     const [agreePrivacy, setAgreePrivacy] = React.useState(false);
     const [community, setCommunity] = React.useState(null);
     const [name, setName] = React.useState('');
+    const [snackText, setSnackText] = React.useState(null);
 
     const theme = createTheme({
         palette: {
@@ -55,7 +57,8 @@ export default function App() {
                 agreeTerms, setAgreeTerms,
                 agreePrivacy, setAgreePrivacy,
                 community, setCommunity,
-                name, setName
+                name, setName,
+                snackText, setSnackText
             }}>
 
             <ThemeProvider theme={theme}>
@@ -69,6 +72,15 @@ export default function App() {
                     <Footer/>
 
                 </div>
+
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={snackText !== null}
+                    autoHideDuration={3000}
+                    onClose={()=>setSnackText(null)}
+                    message={snackText}
+                />
+
             </ThemeProvider>
 
         </AppContext.Provider>

@@ -6,8 +6,9 @@ interface AppContextType {
     loading: boolean, setLoading: any,
     agreeTerms: boolean, setAgreeTerms: any,
     agreePrivacy: boolean, setAgreePrivacy: any,
-    community: any, setCommunity: any
-    name: string, setName: any
+    community: any, setCommunity: any,
+    name: string, setName: any,
+    snackText: string|null, setSnackText: any
 }
 
 const AppContext = createContext<AppContextType|null>(null);

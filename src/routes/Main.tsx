@@ -1,10 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import StarIcon from '@mui/icons-material/Star';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AppContext from "../AppContext";
+import InfoIcon from '@mui/icons-material/Info';
+import ShareIcon from '@mui/icons-material/Share';
+import AddIcon from '@mui/icons-material/Add';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function Main() {
 
@@ -20,7 +24,7 @@ function Main() {
 
     useEffect(() => {
         let id = searchParams.get('id');
-        console.log("Got ID: " + id);
+        console.log("Initializing Main route, id param " + id);
     
         if (id) {
             localStorage.setItem("id", id);
@@ -94,11 +98,70 @@ function Main() {
                 <Typography gutterBottom variant="h5">
                     <Box className="flex flex-row items-center gap-1"><StarIcon/>{t('routes.main.favorite_list')}</Box>
                 </Typography>
-                <Box>
-                    <Typography sx={{ color: 'text.secondary' }}>
-                        Hello world!
-                    </Typography>
+
+                <Box className="flex flex-col gap-4">
+
+                    {data && data.locations.length > 0 &&
+                        <Box>
+                            <Typography sx={{ color: 'text.secondary' }} gutterBottom>
+                                {t('routes.main.hello', {name: context?.name})}
+                            </Typography>
+                            <Typography sx={{ color: 'text.secondary' }}>
+                                {t('routes.main.welcome_text_1')}
+                                <br/>
+                                {t('routes.main.welcome_text_2')} <i>{t('routes.main.welcome_text_3')}</i>
+                                . {t('routes.main.welcome_text_4')}
+                            </Typography>
+                        </Box>
+                    }
+
+                    {(!data || !data.locations.length) && !context?.loading &&
+                        <Card>
+                            <CardContent className="highlightedCard">
+                                <Typography sx={{ color: 'text.secondary' }} gutterBottom>
+                                    <InfoIcon/>&nbsp;{t('routes.main.community_new')}
+                                </Typography>
+                                <Typography sx={{ color: 'text.secondary' }} gutterBottom>
+                                    {t('routes.main.invite_colleagues_1')}
+                                    &nbsp;<ShareIcon fontSize="small"/>&nbsp;
+                                    {t('routes.main.invite_colleagues_2')} {t('routes.main.invite_colleagues_3')} {t('routes.main.invite_colleagues_4')}
+                                </Typography>
+                                <Typography sx={{ color: 'text.secondary' }}>
+                                    {t('routes.main.invite_colleagues_5')}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    }
+
+                    <Box className="flex flex-col gap-4 items-start">
+                        <Button variant="contained"
+                                title={t('routes.main.add_new_location')}
+                                >
+                                
+                            <AddIcon/>{(!data || data.locations.length === 0) && 
+                                <span>&nbsp;{t('components.location_edit.new_location')}</span>
+                            }
+                        </Button>
+                    </Box>
+
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            >
+                            <Typography sx={{ color: 'text.secondary' }}>
+                                <InfoIcon/>&nbsp;{t('routes.main.hint_title')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography sx={{ color: 'text.secondary' }}>
+                                {t('routes.main.hint_1')}
+                                {t('routes.main.hint_2')}
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+
                 </Box>
+
             </CardContent>
         </Card>
     )
