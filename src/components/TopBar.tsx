@@ -4,12 +4,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import React, { useEffect } from 'react';
 import ShareIcon from '@mui/icons-material/Share';
-import SettingsIcon from '@mui/icons-material/SettingsOutlined';
+import SettingsIcon from '@mui/icons-material/SettingsApplications';
 import { TypeWriter } from '../util/TypeWriter';
 import Donate from './Donate';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AppContext from '../AppContext';
+import { IconButton } from '@mui/material';
 
 import dish1 from '../assets/dishes/dish1.jpg';
 import dish2 from '../assets/dishes/dish2.jpg';
@@ -26,7 +27,6 @@ import dish12 from '../assets/dishes/dish12.jpg';
 import dish13 from '../assets/dishes/dish13.jpg';
 import dish14 from '../assets/dishes/dish14.jpg';
 import dish15 from '../assets/dishes/dish15.jpg';
-import { IconButton } from '@mui/material';
 
 export default function TopBar() {
 
@@ -68,17 +68,15 @@ export default function TopBar() {
     useEffect(() => {
         // mount:
         let slogan = t("components.topbar.slogan");
-        const tw = new TypeWriter([slogan,"lunch.community"], (t:string) => {
-            setTitle(t);
-        })
+        const tw = new TypeWriter([slogan,"lunch.community"], setTitle)
         tw.start();
         let carouselTimeout: NodeJS.Timeout | undefined;
         let carouselInterval: NodeJS.Timeout | undefined;
     
         carouselTimeout = setTimeout(() => {
             shiftCarousel();
-            carouselInterval = setInterval(()=>shiftCarousel(), 10000)
-        }, 2000);
+            carouselInterval = setInterval(()=>shiftCarousel(), 10_000)
+        }, 2_000);
 
         return () => {
             // unmount:

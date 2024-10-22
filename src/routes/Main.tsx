@@ -9,6 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ShareIcon from '@mui/icons-material/Share';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { io, Socket } from "socket.io-client";
 
 function Main() {
 
@@ -17,7 +18,12 @@ function Main() {
     const [ searchParams ] = useSearchParams();
     const navigate = useNavigate();
 
-    const [data, setData] = React.useState<any>(null);
+    const [data, setData] = React.useState<any>({
+        locations: [],
+        ordersets: [],
+        chat: []
+    });
+    const [typing, setTyping] = React.useState(false);
 
     // initialize name from local storage
     let name = localStorage.getItem('name');
@@ -48,7 +54,7 @@ function Main() {
                         navigate('/welcome', { replace: true });
                     } else {
                         context?.setName(name);
-                        await startup();
+                        await startup(c.webid);
                     }
                 }
             }).finally(() => {
@@ -57,39 +63,63 @@ function Main() {
         }
     }, [searchParams, navigate]);
 
-    async function startup(): Promise<void> {
-        initSocket();
+    async function startup(webid: string): Promise<void> {
+        initSocket(webid);
         await load();
         try {
             Notification.requestPermission(); // request notification permission
         } catch (err) {}
     }
 
-    function initSocket() {
+    function initSocket(webid: string) {
         // register socket for receiving data:
-        // this.socket = io(environment.socketIoUrl+this.app.community.webid, { path: environment.socketIoPath });
-        // this.socket.on('reconnect', async () => {
-        //     //reload data from server on connect to fix iOS problem with PWA
-        //     this.adaptDataFromServer(await this.api.getData());
-        // });
-        // this.socket.on('data', data => {
-        //     if (!this.isTyping) this.adaptDataFromServer(data);
-        // });
-        // this.socket.on('push', async msg => {
-        //     if (msg.name != this.name) {
-        //         new Notification(msg.title, {
-        //             body: msg.type != 'chat' ? await this.translate.get("push."+msg.body, msg.params).toPromise() : msg.body,
-        //             requireInteraction: msg.type != 'chat'
-        //         });
-        //     }
-        // });
-        // this.socket.on("connect_error", (err) => {
-        //     console.log(`socket.io connect error due to ${err.message}`);
-        // });
+        let socket: Socket = io(process.env.REACT_APP_SOCKET_IO_URL+webid, { path: process.env.REACT_APP_SOCKET_IO_PATH });
+        socket.on('reconnect', async () => {
+            //reload data from server on connect to fix iOS problem with PWA
+            adaptDataFromServer(await context?.api.getData());
+        });
+        socket.on('data', data => {
+            if (!typing) adaptDataFromServer(data);
+        });
+        socket.on('push', async msg => {
+            if (msg.name != context?.name) {
+                new Notification(msg.title, {
+                    body: msg.type != 'chat' ? t('push.'+msg.body, msg.params) : msg.body,
+                    requireInteraction: msg.type != 'chat'
+                });
+            }
+        });
+        socket.on("connect_error", (err) => {
+            console.log(`socket.io connect error due to ${err.message}`);
+        });
     }
 
     async function load(): Promise<void> {
         setData(await context?.api.getData());
+    }
+
+    async function adaptDataFromServer(sdata: any) {
+        data.locations = sdata.locations;
+        data.chat = sdata.chat;
+        for (let o of Object.values<any>(sdata.ordersets)) {
+            // adapt new ones
+            if (!data.ordersets[o.id]) data.ordersets[o.id] = o;
+            else {
+                let orderset = data.ordersets[o.id];
+                orderset.orders = o.orders;
+                orderset.finished = o.finished;
+                orderset.arrived = o.arrived;
+                orderset.chat = o.chat;
+                orderset.comment = o.comment;
+                orderset.payLink = o.payLink;
+                orderset.fee = o.fee;
+            }
+        }
+        for (let o of Object.values<any>(data.ordersets)) {
+            // remove deleted ones
+            if (!sdata.ordersets[o.id]) delete data.ordersets[o.id];
+        }
+        setData(data); // hmmm
     }
 
     return (
